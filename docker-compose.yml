@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: files_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Abhi123
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: file-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL :  jdbc:postgresql://postgres:5432/files_db
+      SPRING_DATASOURCE_USERNAME : postgres
+      SPRING_DATASOURCE_PASSWORD : Abhi123
+    volumes:
+      - ./uploads:/app/uploads
+      - C:\Users\abhim\.aws:/root/.aws:ro
+
